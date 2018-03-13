@@ -9,14 +9,18 @@ import java.util.Scanner;
 public class BibCreator {
 	public static void main(String[] args) {
 		Scanner[] sc = null;
-		PrintWriter[] pw = null;
-		File folder = new File("G:\\workspace\\Assignment3\\files");
+		PrintWriter[] pwIEEE = null;
+		PrintWriter[] pwACM = null;
+		PrintWriter[] pwNJ = null;
+ 		File folder = new File("G:\\workspace\\Assignment3\\files");
 		
 		//Creating an array of files from the folder
 		File[] files = folder.listFiles();
 		//Creating array of Scanner for reading & array of PrintWriter for output
 		sc = new Scanner[files.length];
-		pw = new PrintWriter[files.length * 3]; //three output files for each input file
+		pwIEEE = new PrintWriter[files.length];
+		pwACM = new PrintWriter[files.length];
+		pwNJ = new PrintWriter[files.length];
 		int openErrorIndex = 0;
 		
 		//Opening all files, might throw a FileNotFoundException
@@ -41,12 +45,13 @@ public class BibCreator {
 			System.exit(0);
 		}
 		
+		/*
 		//Creating all files, might throw a FileNotFoundException
 		try{
 			for(int i = 0; i < pw.length; i++){
 				//If files exists, create output file
 				if(files[i].exists()){
-					sc[i] = new Scanner(files[i]);
+					pw[i] = new PrintWriter("");
 				}else{
 					//will get the index of the last attempted opened file
 					openErrorIndex = i;
@@ -55,6 +60,6 @@ public class BibCreator {
 			}
 		}catch(FileNotFoundException e){
 			
-		}
+		} */
 	}
 }
