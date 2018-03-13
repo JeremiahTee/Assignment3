@@ -49,24 +49,24 @@ public class BibCreator {
 		
 		//Creating all files, might throw a FileNotFoundException
 		try{
-			for(int i = 1; i <= files.length; i++){
+			for(int i = 0; i <  files.length; i++){
 				//If files exists, create output file
 				if(files[i].exists()){
-					String IEEEname = "IEEE" + i + ".json";
+					String IEEEname = "IEEE" + (i + 1) + ".json";
 					pwIEEE[i] = new PrintWriter(path + IEEEname);
 				}else{
 					
 				}
 				
 				if(files[i].exists()){
-					String ACMname = "ACM" + i + ".json";
+					String ACMname = "ACM" + (i + 1) + ".json";
 					pwACM[i] = new PrintWriter(path + ACMname);
 				}else{
 					
 				}
 				
 				if(files[i].exists()){
-					String NJname = "NJ" + i + ".json";
+					String NJname = "NJ" + (i + 1) + ".json";
 					pwNJ[i] = new PrintWriter(path + NJname);
 				}else{
 					
