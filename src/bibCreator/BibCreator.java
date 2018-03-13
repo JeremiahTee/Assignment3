@@ -12,7 +12,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
- 		File folder = new File("G:\\workspace\\Assignment3\\files");
+ 		File folder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\files");
+ 		String path = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files\\";
 		
 		//Creating an array of files from the folder
 		File[] files = folder.listFiles();
@@ -45,21 +46,34 @@ public class BibCreator {
 			System.exit(0);
 		}
 		
-		/*
+		
 		//Creating all files, might throw a FileNotFoundException
 		try{
-			for(int i = 0; i < pw.length; i++){
+			for(int i = 1; i <= files.length; i++){
 				//If files exists, create output file
 				if(files[i].exists()){
-					pw[i] = new PrintWriter("");
+					String IEEEname = "IEEE" + i + ".json";
+					pwIEEE[i] = new PrintWriter(path + IEEEname);
 				}else{
-					//will get the index of the last attempted opened file
-					openErrorIndex = i;
-					throw new FileNotFoundException();
+					
+				}
+				
+				if(files[i].exists()){
+					String ACMname = "ACM" + i + ".json";
+					pwACM[i] = new PrintWriter(path + ACMname);
+				}else{
+					
+				}
+				
+				if(files[i].exists()){
+					String NJname = "NJ" + i + ".json";
+					pwNJ[i] = new PrintWriter(path + NJname);
+				}else{
+					
 				}
 			}
 		}catch(FileNotFoundException e){
-			
-		} */
+			System.out.println("");
+		} 
 	}
 }
