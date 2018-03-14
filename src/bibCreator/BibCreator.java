@@ -4,9 +4,69 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class BibCreator {
+	public static int invalidCounter;
+	
+	//TASK 5
+	public static void processFilesForValidation(Scanner[] sc) {
+		//regex pattern for @ARTICLE{
+		Pattern startArticle = Pattern.compile("\\@ARTICLE\\{\\s*");
+		//regex pattern for single { 
+		Pattern endArticle = Pattern.compile("^\\{");
+		String currentLine = "";
+		Matcher m1, m2;
+		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ",
+				doi = " ", month = " ";
+		//Loop through array of Scanners
+		for(int i = 0; i < sc.length; i++) {
+			//read file until the end
+			while(sc[i].hasNextLine()){
+				currentLine = sc[i].nextLine();
+				m1 = startArticle.matcher(currentLine);
+				//marks the beginning of the article
+				if(m1.matches()){
+					while(true){
+						currentLine = sc[i].nextLine();
+						//assign '{' matcher
+						m2 = endArticle.matcher(currentLine);
+						//break out of while loop when line starts with '{'  (end of article)
+						if(m2.matches()) {
+							break;
+						}else { //if we're inside the article, process it
+							if(currentLine.contains("author")) {
+								
+							}else if(currentLine.contains("journal")) {
+								
+							}else if(currentLine.contains("title")) {
+								
+							}else if(currentLine.contains("year")) {
+								
+							}else if(currentLine.contains("volume")) {
+								
+							}else if(currentLine.contains("number")) {
+								
+							}else if(currentLine.contains("pages")) {
+								
+							}else if(currentLine.contains("doi")) {
+								
+							}else if(currentLine.contains("month")) {
+								
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	public static boolean isEmpty(String s){
+		return s.equals("");
+	}
+	
 	public static void main(String[] args) {
 		Scanner[] sc = null;
 		PrintWriter[] pwIEEE = null;
@@ -28,7 +88,7 @@ public class BibCreator {
 		int year;
 		
 		
-		//Opening all files, might throw a FileNotFoundException
+		//TASK 3: Opening all input files, might throw a FileNotFoundException
 		try{
 			for(int i = 0; i < files.length; i++){
 				//If the file exist, open it
@@ -52,7 +112,7 @@ public class BibCreator {
 		}
 		
 		
-		//Creating all files, might throw a FileNotFoundException
+		//TASK 4: Creating all output files, might throw a FileNotFoundException
 		try{
 			for(int i = 0; i <  files.length; i++){
 				String IEEEname = "", ACMname = "", NJname = "";
@@ -62,6 +122,7 @@ public class BibCreator {
 					pwIEEE[i] = new PrintWriter(path + IEEEname);
 				}else{
 					System.out.println(IEEEname + "could not be created.");
+					throw new FileNotFoundException();
 				}
 				
 				if(files[i].exists()){
@@ -69,6 +130,7 @@ public class BibCreator {
 					pwACM[i] = new PrintWriter(path + ACMname);
 				}else{
 					System.out.println(ACMname + "could not be created.");
+					throw new FileNotFoundException();
 				}
 				
 				if(files[i].exists()){
@@ -76,6 +138,7 @@ public class BibCreator {
 					pwNJ[i] = new PrintWriter(path + NJname);
 				}else{
 					System.out.println(NJname + "could not be created.");
+					throw new FileNotFoundException();
 				}
 			}
 		}catch(FileNotFoundException e){
@@ -89,7 +152,5 @@ public class BibCreator {
 				scan.close();
 			}
 		}
-		
-		
 	}
 }
