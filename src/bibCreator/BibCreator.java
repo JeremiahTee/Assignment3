@@ -120,15 +120,17 @@ public class BibCreator {
 							}
 						}
 					}
-					//At the end of article
-					//Build the three formats & output to output files
-					System.out.println(articleSeperator + "Printing each field of article below: " + articleSeperator);
-					System.out.print("authors: ");
-					for(int j = 0; j < authors.size(); j++){
-						System.out.print(authors.get(j) + "\t");
+					//IEEE format
+					//System.out.println(articleSeperator + "Printing each field of article below: " + articleSeperator);
+					//System.out.print("authors: ");
+					for(int j = 0; j < authors.size()-1; j++){
+						System.out.print(authors.get(j) + ", ");
 					}
-					System.out.println("\njournal: " + journal + "\ntitle: " + title  + "\nyear: " + year  +
-							"\nvolume: " + volume  + "\nnumber: " + number  + "\npages: " + pages  + "\ndoi: " + doi  + "\nmonth: " + month);
+					System.out.print(authors.get(authors.size() - 1) + " \"" + title + "\", " + journal + ", vol. "
+							+ volume + ", no. " + number + ",p. " + pages + ", " + month + " " +year+".");
+					
+					//System.out.println("\njournal: " + journal + "\ntitle: " + title  + "\nyear: " + year  +
+							//"\nvolume: " + volume  + "\nnumber: " + number  + "\npages: " + pages  + "\ndoi: " + doi  + "\nmonth: " + month);
 				}
 			}	
 			System.out.println(articleSeperator + "End of the file." + lineSeperator);
