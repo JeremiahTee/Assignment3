@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 public class BibCreator {
 	public static int invalidCounter;
+	public static int validCounter;
 	public static String lineSeperator = "\n===================================================\n";
 	public static String articleSeperator = "\n-----------------------------------------------\n";
 	
@@ -138,6 +139,7 @@ public class BibCreator {
 	public static void processInvalid(File[] files, String field, int index){
 		try{
 			invalidCounter++;
+			delete(files, index);
 			System.out.println("Error: Detected Empty Field!\n================================");
 			throw new FileInvalidException("Problem detected with input file " + files[index].getName() + 
 					"\nFile is invalid: Field " + "\"" + field + "\" is Empty"
@@ -152,6 +154,14 @@ public class BibCreator {
 		int end = s.indexOf('}');
 		s  = s.substring(start + 1, end);
 		return s;
+	}
+	
+	public static void delete(File[] files, int index){
+		for(File file: files){
+			if(file.getName().contains(Integer.toString(index))){
+				file.delete();
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -237,5 +247,6 @@ public class BibCreator {
 		
 		System.out.println("Welcome to Bib Creator! Programmed by Jeremiah Tiongson & Yun Shi Lin" + lineSeperator);
 		processFilesForValidation(sc, files);
+		System.out.println("A total of " + invalidCounter + "files were invalid, and could not be processed. All other + " + validCounter + " \"Valid\" files have been created.");
 	}
 }
