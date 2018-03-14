@@ -18,7 +18,6 @@ public class BibCreator {
 		//regex pattern for single { 
 		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
-		boolean insideArticle = false;
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ",
 				doi = " ", month = " ";
@@ -44,64 +43,80 @@ public class BibCreator {
 								//chop authors
 								//make authors array
 								//use array to build String, use StringBuilder (?)
-							}else if(currentLine.contains("journal")) {
+							}
+							
+							if(currentLine.contains("journal")) {
 								journal = parse(currentLine);		
 								if(journal.isEmpty()){
-									processInvalid(files, journal, i);
+									processInvalid(files, "journal", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("title")) {
+							}
+							
+							if(currentLine.contains("title")) {
 								title = parse(currentLine);
 								if(title.isEmpty()){
-									processInvalid(files, journal, i);
+									processInvalid(files, "title", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("year")) {
+							}
+							
+							if(currentLine.contains("year")) {
 								year = parse(currentLine);
 								if(year.isEmpty()){
-									processInvalid(files, year, i);
+									processInvalid(files, "year", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("volume")) {
+							}
+							
+							if(currentLine.contains("volume")) {
 								volume = parse(currentLine);
 								if(volume.isEmpty()){
-									processInvalid(files, volume, i);
+									processInvalid(files, "volume", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("number")) {
+							}
+							
+							if(currentLine.contains("number")) {
 								number = parse(currentLine);
 								if(number.isEmpty()){
-									processInvalid(files, number, i);
+									processInvalid(files, "number", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("pages")) {
+							}
+							
+							if(currentLine.contains("pages")) {
 								pages = parse(currentLine);
 								if(number.isEmpty()){
-									processInvalid(files, pages, i);
+									processInvalid(files, "pages", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("doi")) {
+							}
+							
+							if(currentLine.contains("doi")) {
 								doi = parse(currentLine);
 								if(number.isEmpty()){
-									processInvalid(files, doi, i);
+									processInvalid(files, "doi", i);
 									break outerloop;
 								}
-							}else if(currentLine.contains("month")) {
+							}
+							
+							if(currentLine.contains("month")) {
 								month = parse(currentLine);
 								if(month.isEmpty()){
-									processInvalid(files, month, i);
+									processInvalid(files, "month", i);
 									break outerloop;
 								}
 							}
 						}
 					}
-					
 					//At the end of article
 					//Build the three formats & output to output files
 					System.out.println("Printing each field of article below:");
 					System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
 				}
-			}
+			}	
+			System.out.println("End of the file.");
 		}
 	}
 	
@@ -111,10 +126,11 @@ public class BibCreator {
 	
 	public static void processInvalid(File[] files, String field, int index){
 		try{
+			invalidCounter++;
 			System.out.println("Error: Detected Empty Field!\n================================");
 			throw new FileInvalidException("Problem detected with input file " + files[index].getName() + 
 					"\nFile is invalid: Field " + "\"" + field + "\" is Empty"
-					+ "Processing stopped at this point. Other empty fields may be present as well!");
+					+ "Processing stopped at this point. Other empty fields may be present as well!\n");
 		}catch(FileInvalidException e){
 			System.out.println(e.getMessage());
 		}
