@@ -6,4 +6,5 @@ Specify the path of folder with .bib files and the path of the output files to b
 
 
 
-Assignment 3 for COMP 249 taught by Aiman Hanna, Winter 2018. **Authors: Jeremiah Tiongson, Yun Shi Lin**
+
+ **Authors: Jeremiah Tiongson, Yun Shi Lin**
