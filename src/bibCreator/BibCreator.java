@@ -32,14 +32,12 @@ public class BibCreator {
 				m1 = startArticle.matcher(currentLine);
 				//marks the beginning of the article
 				if(m1.matches()){
-					insideArticle = true;
-					while(insideArticle){
+					while(sc[i].hasNextLine()){
 						currentLine = sc[i].nextLine();
 						//assign '{' matcher
 						m2 = endArticle.matcher(currentLine);
 						//break out of while loop when line starts with '}'  (end of article)
 						if(m2.matches()) {
-							insideArticle = false;
 							break;
 						}else { //if we're inside the article, process it
 							if(currentLine.contains("author")) {
@@ -95,12 +93,13 @@ public class BibCreator {
 									break outerloop;
 								}
 							}
-							
-							//Build the three formats & output to output files
-							System.out.println("Printing each field of article below:");
-							System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
 						}
 					}
+					
+					//At the end of article
+					//Build the three formats & output to output files
+					System.out.println("Printing each field of article below:");
+					System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
 				}
 			}
 		}
