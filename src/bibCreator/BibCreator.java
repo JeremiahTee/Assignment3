@@ -3,6 +3,8 @@ package bibCreator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,14 +17,15 @@ public class BibCreator {
 	
 	//TASK 5
 	public static void processFilesForValidation(Scanner[] sc, File[] files) {
-		//regex pattern for @ARTICLE{
+		//Regex pattern for @ARTICLE{
 		Pattern startArticle = Pattern.compile("\\@ARTICLE\\{\\s*");
-		//regex pattern for single { 
+		//Regex pattern for single { 
 		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ",
 				doi = " ", month = " ";
+		List<String> authors = null;
 		//Loop through array of Scanners
 		for(int i = 0; i < sc.length; i++) {
 			//read file until the end
@@ -42,9 +45,13 @@ public class BibCreator {
 							break;
 						}else { //if we're inside the article, process it
 							if(currentLine.contains("author")) {
-								//chop authors
-								//make authors array
-								//use array to build String, use StringBuilder (?)
+								author = parse(currentLine);
+								if(author.isEmpty()){
+									processInvalid(files, "author", i);
+									break outerloop;
+								}else{
+									authors = Arrays.asList(author.split(" and "));
+								}
 							}
 							
 							if(currentLine.contains("journal")) {
@@ -115,16 +122,18 @@ public class BibCreator {
 					//At the end of article
 					//Build the three formats & output to output files
 					System.out.println(articleSeperator + "Printing each field of article below: " + articleSeperator);
-					System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
+					System.out.print("authors: ");
+					for(int j = 0; j < authors.size(); j++){
+						System.out.print(authors.get(j) + "\t");
+					}
+					System.out.println("\njournal: " + journal + "\ntitle: " + title  + "\nyear: " + year  +
+							"\nvolume: " + volume  + "\nnumber: " + number  + "\npages: " + pages  + "\ndoi: " + doi  + "\nmonth: " + month);
 				}
 			}	
 			System.out.println(articleSeperator + "End of the file." + lineSeperator);
 		}
 	}
 	
-	public static boolean isEmpty(String s){
-		return s.equals("");
-	}
 	
 	public static void processInvalid(File[] files, String field, int index){
 		try{
@@ -150,8 +159,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
- 		File folder = new File("G:\\workspace\\Assignment3\\files");
- 		String path = "G:\\workspace\\Assignment3\\output files\\";
+ 		File folder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\files");
+ 		String path = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files\\";
 		
 		//Creating an array of files from the folder
 		File[] files = folder.listFiles();
