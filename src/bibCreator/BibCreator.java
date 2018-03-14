@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 public class BibCreator {
 	public static int invalidCounter;
+	public static String lineSeperator = "\n===================================================\n";
+	public static String articleSeperator = "\n-----------------------------------------------\n";
 	
 	//TASK 5
 	public static void processFilesForValidation(Scanner[] sc, File[] files) {
@@ -112,11 +114,11 @@ public class BibCreator {
 					}
 					//At the end of article
 					//Build the three formats & output to output files
-					System.out.println("Printing each field of article below:");
+					System.out.println(articleSeperator + "Printing each field of article below: " + articleSeperator);
 					System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
 				}
 			}	
-			System.out.println("End of the file.");
+			System.out.println(articleSeperator + "End of the file." + lineSeperator);
 		}
 	}
 	
@@ -224,6 +226,7 @@ public class BibCreator {
 			}
 		}
 		
+		System.out.println("Welcome to Bib Creator! Programmed by Jeremiah Tiongson & Yun Shi Lin" + lineSeperator);
 		processFilesForValidation(sc, files);
 	}
 }
