@@ -38,7 +38,7 @@ public class BibCreator {
 				if(m1.matches()){
 					while(sc[i].hasNextLine()){
 						currentLine = sc[i].nextLine();
-						//assign '{' matcher
+						//assign '}' matcher
 						m2 = endArticle.matcher(currentLine);
 						//break out of while loop when line starts with '}'  (end of article)
 						if(m2.matches()) {
