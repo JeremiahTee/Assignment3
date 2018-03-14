@@ -12,29 +12,34 @@ public class BibCreator {
 	public static int invalidCounter;
 	
 	//TASK 5
-	public static void processFilesForValidation(Scanner[] sc) {
+	public static void processFilesForValidation(Scanner[] sc, File[] files) {
 		//regex pattern for @ARTICLE{
 		Pattern startArticle = Pattern.compile("\\@ARTICLE\\{\\s*");
 		//regex pattern for single { 
-		Pattern endArticle = Pattern.compile("^\\{");
+		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
+		boolean insideArticle = false;
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ",
 				doi = " ", month = " ";
 		//Loop through array of Scanners
 		for(int i = 0; i < sc.length; i++) {
 			//read file until the end
+			System.out.println("Reading file " + files[i].getName());
+			outerloop: //label for the outerloop
 			while(sc[i].hasNextLine()){
 				currentLine = sc[i].nextLine();
 				m1 = startArticle.matcher(currentLine);
 				//marks the beginning of the article
 				if(m1.matches()){
-					while(true){
+					insideArticle = true;
+					while(insideArticle){
 						currentLine = sc[i].nextLine();
 						//assign '{' matcher
 						m2 = endArticle.matcher(currentLine);
-						//break out of while loop when line starts with '{'  (end of article)
+						//break out of while loop when line starts with '}'  (end of article)
 						if(m2.matches()) {
+							insideArticle = false;
 							break;
 						}else { //if we're inside the article, process it
 							if(currentLine.contains("author")) {
@@ -42,54 +47,58 @@ public class BibCreator {
 								//make authors array
 								//use array to build String, use StringBuilder (?)
 							}else if(currentLine.contains("journal")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									journal = parse(currentLine);
+								journal = parse(currentLine);		
+								if(journal.isEmpty()){
+									processInvalid(files, journal, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("title")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									title = parse(currentLine);
+								title = parse(currentLine);
+								if(title.isEmpty()){
+									processInvalid(files, journal, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("year")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									year = parse(currentLine);
+								year = parse(currentLine);
+								if(year.isEmpty()){
+									processInvalid(files, year, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("volume")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									volume = parse(currentLine);
+								volume = parse(currentLine);
+								if(volume.isEmpty()){
+									processInvalid(files, volume, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("number")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									number = parse(currentLine);
+								number = parse(currentLine);
+								if(number.isEmpty()){
+									processInvalid(files, number, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("pages")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									pages = parse(currentLine);
+								pages = parse(currentLine);
+								if(number.isEmpty()){
+									processInvalid(files, pages, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("doi")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									doi = parse(currentLine);
+								doi = parse(currentLine);
+								if(number.isEmpty()){
+									processInvalid(files, doi, i);
+									break outerloop;
 								}
 							}else if(currentLine.contains("month")) {
-								if(currentLine.isEmpty()) {
-									
-								}else {
-									month = parse(currentLine);
+								month = parse(currentLine);
+								if(month.isEmpty()){
+									processInvalid(files, month, i);
+									break outerloop;
 								}
 							}
+							
+							//Build the three formats & output to output files
+							System.out.println("Printing each field of article below:");
+							System.out.println(journal + "\n" + title  + "\n" + year  + "\n" + volume  + "\n" + number  + "\n" + pages  + "\n" + doi  + "\n" + month);
 						}
 					}
 				}
@@ -99,6 +108,17 @@ public class BibCreator {
 	
 	public static boolean isEmpty(String s){
 		return s.equals("");
+	}
+	
+	public static void processInvalid(File[] files, String field, int index){
+		try{
+			System.out.println("Error: Detected Empty Field!\n================================");
+			throw new FileInvalidException("Problem detected with input file " + files[index].getName() + 
+					"\nFile is invalid: Field " + "\"" + field + "\" is Empty"
+					+ "Processing stopped at this point. Other empty fields may be present as well!");
+		}catch(FileInvalidException e){
+			System.out.println(e.getMessage());
+		}
 	}
 	
 	public static String parse(String s) {
@@ -113,8 +133,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
- 		File folder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\files");
- 		String path = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files\\";
+ 		File folder = new File("G:\\workspace\\Assignment3\\files");
+ 		String path = "G:\\workspace\\Assignment3\\output files\\";
 		
 		//Creating an array of files from the folder
 		File[] files = folder.listFiles();
@@ -124,9 +144,6 @@ public class BibCreator {
 		pwACM = new PrintWriter[files.length];
 		pwNJ = new PrintWriter[files.length];
 		int openErrorIndex = 0;
-		//Fields used
-		String author, journal, title, volume, pages, doi, month;
-		int year;
 		
 		//TASK 3: Opening all input files, might throw a FileNotFoundException
 		try{
@@ -191,5 +208,7 @@ public class BibCreator {
 				scan.close();
 			}
 		}
+		
+		processFilesForValidation(sc, files);
 	}
 }
