@@ -38,23 +38,57 @@ public class BibCreator {
 							break;
 						}else { //if we're inside the article, process it
 							if(currentLine.contains("author")) {
-								
+								//chop authors
+								//make authors array
+								//use array to build String, use StringBuilder (?)
 							}else if(currentLine.contains("journal")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									journal = parse(currentLine);
+								}
 							}else if(currentLine.contains("title")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									title = parse(currentLine);
+								}
 							}else if(currentLine.contains("year")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									year = parse(currentLine);
+								}
 							}else if(currentLine.contains("volume")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									volume = parse(currentLine);
+								}
 							}else if(currentLine.contains("number")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									number = parse(currentLine);
+								}
 							}else if(currentLine.contains("pages")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									pages = parse(currentLine);
+								}
 							}else if(currentLine.contains("doi")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									doi = parse(currentLine);
+								}
 							}else if(currentLine.contains("month")) {
-								
+								if(currentLine.isEmpty()) {
+									
+								}else {
+									month = parse(currentLine);
+								}
 							}
 						}
 					}
@@ -65,6 +99,13 @@ public class BibCreator {
 	
 	public static boolean isEmpty(String s){
 		return s.equals("");
+	}
+	
+	public static String parse(String s) {
+		int start = s.indexOf('{');
+		int end = s.indexOf('}');
+		s  = s.substring(start + 1, end);
+		return s;
 	}
 	
 	public static void main(String[] args) {
@@ -86,7 +127,6 @@ public class BibCreator {
 		//Fields used
 		String author, journal, title, volume, pages, doi, month;
 		int year;
-		
 		
 		//TASK 3: Opening all input files, might throw a FileNotFoundException
 		try{
@@ -110,7 +150,6 @@ public class BibCreator {
 			//Exit program
 			System.exit(0);
 		}
-		
 		
 		//TASK 4: Creating all output files, might throw a FileNotFoundException
 		try{
