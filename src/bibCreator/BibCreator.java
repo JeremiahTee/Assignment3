@@ -124,19 +124,20 @@ public class BibCreator {
 							}
 						}
 					}
+					////////Y-S NEW FORMATTING
 					// IEEE format
 					System.out.println("IEEE format");
 					for (int j = 0; j < authors.size() - 1; j++) {
 						System.out.print(authors.get(j) + ", ");
 					}
-					System.out.print(authors.size() - 1 + " \"" + title + "\", " + journal + ", vol. " + volume
-							+ ", no. " + number + ",p. " + pages + ", " + month + " " + year + ".");
+					System.out.print(authors.get(authors.size() - 1)+ ". \"" + title + "\", " + journal + ", vol. " + volume + ", no. "
+							+ number + ", p. " + pages + ", " + month + " " + year + ".");
 					System.out.println("\n----------------------------------");
 
 					// ACM format
 					System.out.println("ACM format");
-					System.out.print("[" + numArticles + "] " + authors.get(authors.size() - 1) + " et al. " + year + ". " + title + ". " + journal
-							+ ". " + volume + ", " + number + " (" + year + "), " + pages + ". DOI:" + doi + ".");
+					System.out.print("[" + numArticles + "]" + authors.get(0) + " et al. " + year + ". " + title + ". " + journal
+							+ ". " + volume + ", " + number + " (" + year + "), " + pages + ". DOI:https://doi.org/" + doi + ".");
 					System.out.println("\n----------------------------------");
 
 					// NJ format
@@ -144,8 +145,8 @@ public class BibCreator {
 					for (int j = 0; j < authors.size() - 1; j++) {
 						System.out.print(authors.get(j) + " & ");
 					}
-					System.out.print(authors.get(authors.size() - 1) + ". " + title + ". " + journal + ". " + volume
-							+ ", " + pages + "(" + year + ").");
+					System.out.print(authors.get(authors.size() - 1) + ". " + title + ". " + journal + ". " + volume + ", "
+							+ pages + "(" + year + ").");
 					System.out.println("\n----------------------------------");
 				} // this brace marks the end of article
 			} // this brace marks the end of the file
@@ -176,7 +177,10 @@ public class BibCreator {
 	public static void delete(File[] outputFiles, int index) {
 		for(int i = 0; i < outputFiles.length; i++) {
 			if (outputFiles[i].getName().contains(Integer.toString(index))) {
-				outputFiles[i].delete();
+				//Trying to rename every bad file to "toDelete"
+				//This doesn't work somehow... if you can find out why... you're the MVP
+				File toBeDeleted = new File("E:\\Programs\\eclipse-workspace\\Assignment3\\output files\\toDelete");
+				outputFiles[i].renameTo(toBeDeleted);
 			}
 		}
 	}
@@ -299,9 +303,11 @@ public class BibCreator {
 			System.out.println(file.getName());
 		}
 		
-		for(File file : outputFiles) {
-			System.out.println("Deleting " + file.getName());
-			System.out.println(file.delete());
+		for(int i = 0; i < outputFiles.length; i++) {
+			if(outputFiles[i].getName().equals("toDelete")) {
+				System.out.println("Deleting " + outputFiles[i].getName());
+				System.out.println(outputFiles[i].delete());
+			}
 		}
 	}
 }
