@@ -164,8 +164,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
-		File inputFolder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\files");
-		String pathOutput = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files";
+		File inputFolder = new File("C:\\Users\\Dabris\\Documents\\GitHub\\Assignment3\\input files");
+		String pathOutput = "C:\\Users\\Dabris\\Documents\\GitHub\\Assignment3\\output files";
 
 		// Creating an array of input files from the folder
 		File[] inputFiles = inputFolder.listFiles();
