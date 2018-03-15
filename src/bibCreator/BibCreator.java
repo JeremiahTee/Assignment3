@@ -24,6 +24,7 @@ public class BibCreator {
 		// Regex pattern for single }
 		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
+		//Matchers for beginning and end of article
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ", doi = " ",
 				month = " ";
