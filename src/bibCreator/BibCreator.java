@@ -232,16 +232,16 @@ public class BibCreator {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("There was an error creating files. Processing has stopped.");
-			// Deleting all files
-			for (File file : inputFiles)
-				if (!file.isDirectory())
-					file.delete();
-
+			//Closing all scanners (MUST close before deleting)
 			for (Scanner scan : sc) {
 				scan.close();
 			}
+			// Deleting all files
+			for (File file : inputFiles){
+				if (!file.isDirectory())
+					file.delete();
+			}
 		}
-		
 		//At this point, all output files have been created, making array of File[] so we can use delete()
 		File outputFolder = new File(pathOutput);
 		File[] outputFiles = outputFolder.listFiles();
