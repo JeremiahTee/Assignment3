@@ -120,18 +120,14 @@ public class BibCreator {
 							}
 						}
 					}
-					//IEEE format
-					//System.out.println(articleSeperator + "Printing each field of article below: " + articleSeperator);
-					//System.out.print("authors: ");
-					for(int j = 0; j < authors.size()-1; j++){
-						System.out.print(authors.get(j) + ", ");
-					}
-					System.out.print(authors.get(authors.size() - 1) + " \"" + title + "\", " + journal + ", vol. "
-							+ volume + ", no. " + number + ",p. " + pages + ", " + month + " " +year+".");
-					
-					//System.out.println("\njournal: " + journal + "\ntitle: " + title  + "\nyear: " + year  +
-							//"\nvolume: " + volume  + "\nnumber: " + number  + "\npages: " + pages  + "\ndoi: " + doi  + "\nmonth: " + month);
 				}
+				//IEEE format
+				for(int j = 0; j < authors.size(); j++){
+					System.out.print(authors.get(j) + ", ");
+				}
+				System.out.print( " \"" + title + "\", " + journal + ", vol. "
+						+ volume + ", no. " + number + ",p. " + pages + ", " + month + " " +year+".");		
+				System.out.println("\n");
 			}	
 			System.out.println(articleSeperator + "End of the file." + lineSeperator);
 		}
@@ -171,8 +167,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
- 		File folder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\files");
- 		String path = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files\\";
+ 		File folder = new File("E:\\Programs\\eclipse-workspace\\Assignment3\\files");
+ 		String path = "E:\\Programs\\eclipse-workspace\\Assignment3\\output files\\";
 		
 		//Creating an array of files from the folder
 		File[] files = folder.listFiles();
@@ -249,6 +245,7 @@ public class BibCreator {
 		
 		System.out.println("Welcome to Bib Creator! Programmed by Jeremiah Tiongson & Yun Shi Lin" + lineSeperator);
 		processFilesForValidation(sc, files);
-		System.out.println("A total of " + invalidCounter + "files were invalid, and could not be processed. All other + " + validCounter + " \"Valid\" files have been created.");
+		validCounter = sc.length - invalidCounter;
+		System.out.println("A total of " + invalidCounter + " files were invalid, and could not be processed. All other + " + validCounter + " \"Valid\" files have been created.");
 	}
 }
