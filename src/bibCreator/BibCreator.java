@@ -197,7 +197,7 @@ public class BibCreator {
 	}
 
 	/**
-	 * Get content inside the semicolons
+	 * Get content inside the fields
 	 *
 	 * @param s the s
 	 * @return the string
