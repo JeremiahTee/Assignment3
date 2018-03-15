@@ -2,7 +2,7 @@ package bibCreator;
 
 //-----------------------------------------------------
 //Assignment #3
-//Task #2
+//TASK 2
 //Written by: 
 //Jeremiah Tiongson, 40055477
 //Yun Shi Lin, 40055867
