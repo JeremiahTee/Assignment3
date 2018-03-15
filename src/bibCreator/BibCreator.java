@@ -1,3 +1,17 @@
+//-----------------------------------------------------
+//Assignment #3
+//TASK 2
+//Written by: 
+//Jeremiah Tiongson, 40055477
+//Yun Shi Lin, 40055867
+//-----------------------------------------------------
+
+/**
+ * The BibCreator program allows the user to create bibliographies in the IEEE, ACM, and NJ formats from bib files
+ *@author Jeremiah Tiongson & Yun Shi Lin
+ *@version 1.0
+ *@since 2018-03-12
+ */
 package bibCreator;
 
 import java.io.BufferedReader;
@@ -12,43 +26,63 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The Class BibCreator.
+ */
 public class BibCreator {
+	
+	/** The invalid counter. */
 	public static int invalidCounter = 0;
+	
+	/** The valid counter. */
 	public static int validCounter;
+	
+	/** The num articles. */
 	public static int numArticles = 0;
-	/* TASK 5 processFilesForValidation*/
+
+	/**
+	 * Process files for validation.
+	 *
+	 * @param sc the sc
+	 * @param files the files
+	 * @param pwIEE the pw IEE
+	 * @param pwACM the pw ACM
+	 * @param pwNJ the pw NJ
+	 * @param badOutputList the bad output list
+	 */
+	/* TASK 5 processFilesForValidation */
 	public static void processFilesForValidation(Scanner[] sc, File[] files, PrintWriter[] pwIEE, PrintWriter[] pwACM,
 			PrintWriter[] pwNJ, List<Integer> badOutputList) {
-		// Regex pattern for @ARTICLE{ 
+		// Regex pattern for @ARTICLE{
 		Pattern startArticle = Pattern.compile("\\@ARTICLE\\{\\s*");
 		// Regex pattern for single }
 		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
-		//Matchers for beginning and end of article
+		// Matchers for beginning and end of article
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ", doi = " ",
 				month = " ";
 		String[] authors = null;
 		// Loop through array of Scanners
-		//read file until the end
+		// read file until the end
 		for (int i = 0; i < sc.length; i++) {
-			//Reset number of article 'seen' so far for next file
-			numArticles = 0; 
-			outerloop: // label for the outer while loop 
+			// Reset number of article 'seen' so far for next file
+			numArticles = 0;
+			outerloop: // label for the outer while loop
 			while (sc[i].hasNextLine()) {
 				currentLine = sc[i].nextLine();
 				m1 = startArticle.matcher(currentLine);
 				// marks the beginning of the article
 				if (m1.matches()) {
-					numArticles++; //first article has been accessed, increase counter, this is for the ACM format
+					numArticles++; // first article has been accessed, increase counter, this is for the ACM format
 					while (sc[i].hasNextLine()) {
 						currentLine = sc[i].nextLine();
 						// assign '}' matcher
 						m2 = endArticle.matcher(currentLine);
-						//break out of inner while loop when line starts with '}' (end of article)
+						// break out of inner while loop when line starts with '}' (end of article)
 						if (m2.matches()) {
 							break;
-						} else { //we're inside the article, retrieve the fields
+						} else { // we're inside the article, retrieve the fields
 							if (currentLine.contains("author")) {
 								author = parse(currentLine);
 								if (author.isEmpty()) {
@@ -112,23 +146,24 @@ public class BibCreator {
 								if (month.isEmpty()) {
 									processInvalid(files, "month", i, badOutputList);
 									break outerloop;
-								}   
+								}
 							}
 						}
 					}
-					//Printing to output files
-						// IEEE format
+					// Printing to output files
+					// IEEE format
 					for (int j = 0; j < authors.length - 1; j++) {
 						pwIEE[i].print(authors[j] + ", ");
 					}
-					pwIEE[i].print(authors[authors.length - 1] + ". \"" + title + "\", " + journal + ", vol. " + volume + ", no. "
-							+ number + ", p. " + pages + ", " + month + " " + year + ".");
+					pwIEE[i].print(authors[authors.length - 1] + ". \"" + title + "\", " + journal + ", vol. " + volume
+							+ ", no. " + number + ", p. " + pages + ", " + month + " " + year + ".");
 					pwIEE[i].println("\n");
-						// ACM format
-					pwACM[i].print("[" + numArticles + "] " + authors[0] + " et al. " + year + ". " + title + ". " + journal
-							+ ". " + volume + ", " + number + " (" + year + "), " + pages + ". DOI:https://doi.org/" + doi + ".");
+					// ACM format
+					pwACM[i].print("[" + numArticles + "] " + authors[0] + " et al. " + year + ". " + title + ". "
+							+ journal + ". " + volume + ", " + number + " (" + year + "), " + pages
+							+ ". DOI:https://doi.org/" + doi + ".");
 					pwACM[i].println("\n");
-						// NJ format
+					// NJ format
 					for (int j = 0; j < authors.length - 1; j++) {
 						pwNJ[i].print(authors[j] + " & ");
 					}
@@ -140,6 +175,14 @@ public class BibCreator {
 		}
 	}
 
+	/**
+	 * Process invalid.
+	 *
+	 * @param inputFiles the input files
+	 * @param field the field
+	 * @param index the index
+	 * @param badOutputList the bad output list
+	 */
 	public static void processInvalid(File[] inputFiles, String field, int index, List<Integer> badOutputList) {
 		try {
 			invalidCounter++;
@@ -153,6 +196,12 @@ public class BibCreator {
 		}
 	}
 
+	/**
+	 * Get content inside the semicolons
+	 *
+	 * @param s the s
+	 * @return the string
+	 */
 	public static String parse(String s) {
 		int start = s.indexOf('{');
 		int end = s.indexOf('}');
@@ -160,6 +209,9 @@ public class BibCreator {
 		return s;
 	}
 
+	/**
+	 * The main method.
+	 */
 	public static void main(String[] args) {
 		Scanner[] sc = null;
 		PrintWriter[] pwIEEE = null;
@@ -175,7 +227,7 @@ public class BibCreator {
 		pwIEEE = new PrintWriter[inputFiles.length];
 		pwACM = new PrintWriter[inputFiles.length];
 		pwNJ = new PrintWriter[inputFiles.length];
-		//Creating Array List to track indexes of bad output (for Task 6)
+		// Creating Array List to track indexes of bad output (for Task 6)
 		List<Integer> badOutputList = new ArrayList<>();
 		int openErrorIndex = 0;
 
@@ -192,8 +244,9 @@ public class BibCreator {
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("Could not open input file" + inputFiles[openErrorIndex].getName() + " for reading. Please"
-					+ " check if file exists! Program will terminate after closing any opened files.");
+			System.out
+					.println("Could not open input file" + inputFiles[openErrorIndex].getName() + " for reading. Please"
+							+ " check if file exists! Program will terminate after closing any opened files.");
 			// Closing all opened input files
 			for (int i = 0; i < openErrorIndex; i++) {
 				sc[i].close();
@@ -209,7 +262,7 @@ public class BibCreator {
 				// If files exists, create output file
 				if (inputFiles[i].exists()) {
 					IEEEname = "IEEE" + (i + 1) + ".json";
-					pwIEEE[i] = new PrintWriter(pathOutput + "\\" +  IEEEname);
+					pwIEEE[i] = new PrintWriter(pathOutput + "\\" + IEEEname);
 				} else {
 					System.out.println(IEEEname + "could not be created.");
 					throw new FileNotFoundException();
@@ -217,7 +270,7 @@ public class BibCreator {
 
 				if (inputFiles[i].exists()) {
 					ACMname = "ACM" + (i + 1) + ".json";
-					pwACM[i] = new PrintWriter(pathOutput + "\\" +  ACMname);
+					pwACM[i] = new PrintWriter(pathOutput + "\\" + ACMname);
 				} else {
 					System.out.println(ACMname + "could not be created.");
 					throw new FileNotFoundException();
@@ -233,25 +286,26 @@ public class BibCreator {
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("There was an error creating files. Processing has stopped.");
-			//Closing all scanners (MUST close before deleting)
+			// Closing all scanners (MUST close before deleting)
 			for (Scanner scan : sc) {
 				scan.close();
 			}
 			// Deleting all files
-			for (File file : inputFiles){
+			for (File file : inputFiles) {
 				if (!file.isDirectory())
 					file.delete();
 			}
 		}
-		//At this point, all output files have been created, making array of File[] so we can use delete()
+		// At this point, all output files have been created, making array of File[] so
+		// we can use delete()
 		File outputFolder = new File(pathOutput);
 		File[] outputFiles = outputFolder.listFiles();
-		
-		//Execution of core
+
+		// Execution of core
 		System.out.println("Welcome to Bib Creator! Programmed by Jeremiah Tiongson & Yun Shi Lin");
 		processFilesForValidation(sc, inputFiles, pwIEEE, pwACM, pwNJ, badOutputList);
 		validCounter = sc.length - invalidCounter;
-	
+
 		// Closing all scanners
 		for (int i = 0; i < sc.length; i++) {
 			sc[i].close();
@@ -269,25 +323,25 @@ public class BibCreator {
 			pwNJ[i].close();
 		}
 		/* TASK 6: Deleting bad output files */
-		for(int i = 0; i < badOutputList.size(); i++) {
-			for(int j = 0; j < outputFiles.length; j++){
-				if (outputFiles[j].getName().contains(Integer.toString(badOutputList.get(i)))){
-					//Uncomment for console output
-					//System.out.println("Deleting " + outputFiles[j].getName() + " : ");
-					//System.out.print(outputFiles[j].delete() + "\n");
+		for (int i = 0; i < badOutputList.size(); i++) {
+			for (int j = 0; j < outputFiles.length; j++) {
+				if (outputFiles[j].getName().contains(Integer.toString(badOutputList.get(i)))) {
+					// Uncomment for console output
+					// System.out.println("Deleting " + outputFiles[j].getName() + " : ");
+					// System.out.print(outputFiles[j].delete() + "\n");
 					outputFiles[j].delete();
 				}
 			}
 		}
 		System.out.println("A total of " + invalidCounter + " files were invalid, and could not be processed. All other"
-						+ validCounter + " \"Valid\" files have been created.");
+				+ validCounter + " \"Valid\" files have been created.");
 		/* TASK 7 */
-		//Scanner for user input
+		// Scanner for user input
 		Scanner keyboard = new Scanner(System.in);
-		//BufferedReader for the file to display
+		// BufferedReader for the file to display
 		BufferedReader display = null;
 		String toDisplay = null;
-		//Trying to open a output file specified by user
+		// Trying to open a output file specified by user
 		try {
 			System.out.print("Please enter the name of one of the files that you need to review: ");
 			toDisplay = keyboard.next();
@@ -300,7 +354,7 @@ public class BibCreator {
 			}
 			display.close();
 			keyboard.close();
-		}catch(FileNotFoundException exc){
+		} catch (FileNotFoundException exc) {
 			exc.getMessage();
 			System.out.println("Could not open input file. File does not exist; possibly it could not be created!"
 					+ "\n\nHowever, you will be allowed another chance to enter another file name.");
@@ -318,13 +372,14 @@ public class BibCreator {
 				display.close();
 				keyboard.close();
 			} catch (FileNotFoundException ex) {
-				System.out.println("\nCould not open input file again! Either file does not exist or could not be created."
-						+ "\n Sorry! I am unable to display your desired files! Program will exit!");
+				System.out.println(
+						"\nCould not open input file again! Either file does not exist or could not be created."
+								+ "\n Sorry! I am unable to display your desired files! Program will exit!");
 				System.exit(0);
-			}catch(IOException e){
+			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
-		}catch(IOException e){
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 		System.out.println("Goodbye! Hope you have enjoyed creating the needed files using BibCreator.");

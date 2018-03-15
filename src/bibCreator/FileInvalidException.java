@@ -9,7 +9,7 @@ package bibCreator;
 //-----------------------------------------------------
 
 /**
- * 
+ * FileInvalidException class
  * @author Jeremiah Tiongson & Yun Shi Lin
  *
  */
