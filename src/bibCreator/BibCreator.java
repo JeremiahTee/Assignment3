@@ -278,6 +278,8 @@ public class BibCreator {
 				"A total of " + invalidCounter + " files were invalid, and could not be processed. All other + "
 						+ validCounter + " \"Valid\" files have been created.");
 		
+		System.out.println("Commit");
+		
 		// Closing all scanners
 		for (int i = 0; i < sc.length; i++) {
 			sc[i].close();
