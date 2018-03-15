@@ -9,7 +9,19 @@ public class Test {
 		s  = s.substring(start + 1, end);
 		
 		System.out.println(s);
+		
+		/*
+		 * 
+		 * for(int i = 0; i < outputFiles.length; i++) {
+			if (outputFiles[i].getName().contains(Integer.toString(index))) {
+				possibleBadOutput[invalidCounter] = index;
+			}
+		}
+		 */
 
+		/*
+		 * int[] possibleBadOutput
+		 */
 	}
 
 }
