@@ -1,16 +1,17 @@
 //-----------------------------------------------------
 //Assignment #3
-//TASK 2
+//COMP249
 //Written by: 
 //Jeremiah Tiongson, 40055477
 //Yun Shi Lin, 40055867
+//Due date: 19/03/2018
 //-----------------------------------------------------
 
 /**
  * The BibCreator program allows the user to create bibliographies in the IEEE, ACM, and NJ formats from bib files
- *@author Jeremiah Tiongson & Yun Shi Lin
- *@version 1.0
- *@since 2018-03-12
+ * @author Jeremiah Tiongson & Yun Shi Lin
+ * @version 1.0
+ * @since 2018-03-12
  */
 package bibCreator;
 
