@@ -231,6 +231,7 @@ public class BibCreator {
 		PrintWriter[] pwNJ = null;
 		File inputFolder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\input files");
 		String pathOutput = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files";
+		String regexDigit = "";
 
 		// Creating an array of input files from the folder
 		File[] inputFiles = inputFolder.listFiles();
@@ -337,11 +338,12 @@ public class BibCreator {
 		/* TASK 6: Deleting bad output files */
 		for (int i = 0; i < badOutputList.size(); i++) {
 			for (int j = 0; j < outputFiles.length; j++) {
-				if (outputFiles[j].getName().contains((Integer.toString(badOutputList.get(i))))) {
+				//Using regex expression .*\d.json where \d is a digit
+				if (outputFiles[j].getName().matches(".*" + Integer.toString(badOutputList.get(i)) + ".json")) {
 					// Uncomment for console output
-					 //System.out.println("Bad output at: " + badOutputList.get(i));
-					 //System.out.println("Deleting " + outputFiles[j].getName() + " : ");
-					 System.out.print(outputFiles[j].delete() + "\n");
+					// System.out.println("Bad output at: " + badOutputList.get(i));
+					// System.out.println("Deleting " + outputFiles[j].getName() + " : ");
+					// System.out.print(outputFiles[j].delete() + "\n");
 					outputFiles[j].delete();
 				}
 			}
