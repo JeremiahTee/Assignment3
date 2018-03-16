@@ -178,6 +178,11 @@ public class BibCreator {
 					pwNJ[i].println("\n");
 				} // this brace marks the end of article
 			} // this brace marks the end of the file
+			//If the number of articles is 0, then the file is empty! Add it to the badOutputList
+			if(numArticles == 0){
+				invalidCounter++;
+				badOutputList.add(i + 1); //first iteration, index is 0
+			}
 		}
 	}
 
@@ -224,8 +229,8 @@ public class BibCreator {
 		PrintWriter[] pwIEEE = null;
 		PrintWriter[] pwACM = null;
 		PrintWriter[] pwNJ = null;
-		File inputFolder = new File("C:\\Users\\Dabris\\Documents\\GitHub\\Assignment3\\input files");
-		String pathOutput = "C:\\Users\\Dabris\\Documents\\GitHub\\Assignment3\\output files";
+		File inputFolder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\input files");
+		String pathOutput = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files";
 
 		// Creating an array of input files from the folder
 		File[] inputFiles = inputFolder.listFiles();
@@ -332,15 +337,16 @@ public class BibCreator {
 		/* TASK 6: Deleting bad output files */
 		for (int i = 0; i < badOutputList.size(); i++) {
 			for (int j = 0; j < outputFiles.length; j++) {
-				if (outputFiles[j].getName().contains(Integer.toString(badOutputList.get(i)))) {
+				if (outputFiles[j].getName().contains((Integer.toString(badOutputList.get(i))))) {
 					// Uncomment for console output
-					// System.out.println("Deleting " + outputFiles[j].getName() + " : ");
-					// System.out.print(outputFiles[j].delete() + "\n");
+					 //System.out.println("Bad output at: " + badOutputList.get(i));
+					 //System.out.println("Deleting " + outputFiles[j].getName() + " : ");
+					 System.out.print(outputFiles[j].delete() + "\n");
 					outputFiles[j].delete();
 				}
 			}
 		}
-		System.out.println("A total of " + invalidCounter + " files were invalid, and could not be processed. All other"
+		System.out.println("A total of " + invalidCounter + " files were invalid, and could not be processed. All other "
 				+ validCounter + " \"Valid\" files have been created.");
 		/* TASK 7 */
 		// Scanner for user input
