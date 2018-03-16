@@ -43,12 +43,12 @@ public class BibCreator {
 	/**
 	 * Process files for validation.
 	 *
-	 * @param sc the sc
-	 * @param files the files
-	 * @param pwIEE the pw IEE
-	 * @param pwACM the pw ACM
-	 * @param pwNJ the pw NJ
-	 * @param badOutputList the bad output list
+	 * @param sc: the array of scanners that read the input folders
+	 * @param files: the array of input files
+	 * @param pwIEE: PrintWriters that print to json files in the IEE format
+	 * @param pwACM: PrintWriters that print to  json files in the ACM format
+	 * @param pwNJ: the printWriters that print to json files in the NJ format
+	 * @param badOutputList: the bad output list
 	 */
 	/* TASK 5 processFilesForValidation */
 	public static void processFilesForValidation(Scanner[] sc, File[] files, PrintWriter[] pwIEE, PrintWriter[] pwACM,
@@ -178,10 +178,10 @@ public class BibCreator {
 	/**
 	 * Process invalid.
 	 *
-	 * @param inputFiles the input files
-	 * @param field the field
-	 * @param index the index
-	 * @param badOutputList the bad output list
+	 * @param inputFiles: the input files
+	 * @param field: the field of the input document
+	 * @param index: the index of the bad input file
+	 * @param badOutputList: the bad output list
 	 */
 	public static void processInvalid(File[] inputFiles, String field, int index, List<Integer> badOutputList) {
 		try {
@@ -199,8 +199,8 @@ public class BibCreator {
 	/**
 	 * Get content inside the fields
 	 *
-	 * @param s the s
-	 * @return the string
+	 * @param s: the contents of a field
+	 * @return the string which is the contents of a field
 	 */
 	public static String parse(String s) {
 		int start = s.indexOf('{');
