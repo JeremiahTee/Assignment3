@@ -6,12 +6,6 @@
 //Yun Shi Lin, 40055867
 //-----------------------------------------------------
 
-/**
- * The BibCreator program allows the user to create bibliographies in the IEEE, ACM, and NJ formats from bib files
- *@author Jeremiah Tiongson & Yun Shi Lin
- *@version 1.0
- *@since 2018-03-12
- */
 package bibCreator;
 
 import java.io.BufferedReader;
@@ -27,38 +21,50 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The Class BibCreator.
+ * This class reads any amount of JSON formatted files (for example, .bib files) from a folder (specify path at inputFolder)
+ * and creates three corresponding output files for each input file with these respective formats: IEEE, ACM, NJ. 
+ * For example, a Latex1.bib input file containing one or more articles will be opened, read, and then processed
+ * to create the corresponding IEEE1.json, ACM1.json, NJ1.json formatted output files.
+ * <p>
+ * Note: Input files containing empty fields are processed until the first occurence of empty field, then they are deleted.
+ * @author Jeremiah Tiongson
+ * @author Yun Shi
+ * @version 1.0
+ * @since 2018-03-12
  */
 public class BibCreator {
 	
-	/** The invalid counter. */
+	/** Keeps track of the number of invalid files*/
 	public static int invalidCounter = 0;
 	
-	/** The valid counter. */
+	/** Keeps track of the number of valid files*/
 	public static int validCounter;
 	
-	/** The num articles. */
+	/** Keeps track of the number of articles in a file*/
 	public static int numArticles = 0;
 
-	/**
-	 * Process files for validation.
-	 *
-	 * @param sc the sc
-	 * @param files the files
-	 * @param pwIEE the pw IEE
-	 * @param pwACM the pw ACM
-	 * @param pwNJ the pw NJ
-	 * @param badOutputList the bad output list
+	/**TASK 5:
+	 * This method processes an array of opened input files one by one using a for loop.
+	 * The outer while loop reads the file at index i until it has no more lines.
+	 * The inner while loop is entered when an article is found. When a closing curly brace is found,
+	 * the inner while loop is broken. If an article contains an empty field, the outerloop is broken
+	 * and we are back to the for loop to process the next file.
+	 * 
+	 * @param sc Array of Scanners representing opened files which will be processed for validation
+	 * @param files	Passed as a parameter for processInvalid method
+	 * @param pwIEE	Writes to IEEE formatted output files
+	 * @param pwACM	Writes to ACM formatted output files
+	 * @param pwNJ	Writes to NJ formatted output files
+	 * @param badOutputList	Keeps track of indexes of invalid files that will eventually be deleted
 	 */
-	/* TASK 5 processFilesForValidation */
 	public static void processFilesForValidation(Scanner[] sc, File[] files, PrintWriter[] pwIEE, PrintWriter[] pwACM,
 			PrintWriter[] pwNJ, List<Integer> badOutputList) {
-		// Regex pattern for @ARTICLE{
+		/** Regex pattern for @ARTICLE{*/
 		Pattern startArticle = Pattern.compile("\\@ARTICLE\\{\\s*");
-		// Regex pattern for single }
+		/**Regex pattern for single }*/
 		Pattern endArticle = Pattern.compile("^\\}\\s*");
 		String currentLine = "";
-		// Matchers for beginning and end of article
+		/**Matchers for beginning and end of article*/
 		Matcher m1, m2;
 		String author = " ", journal = " ", title = " ", year = " ", volume = " ", number = " ", pages = " ", doi = " ",
 				month = " ";
@@ -176,12 +182,13 @@ public class BibCreator {
 	}
 
 	/**
-	 * Process invalid.
+	 * This method processes an invalid input file, taking its index and adding it to the List of Integers badOutputlist.
 	 *
-	 * @param inputFiles the input files
-	 * @param field the field
-	 * @param index the index
+	 * @param inputFiles Used to display the name of the invalid input file
+	 * @param field Used to display the invalid field
+	 * @param index Stored in the badOutputlist
 	 * @param badOutputList the bad output list
+	 * @exception Throws FileInvalidException and displays the error message indicating the corresponding invalid input file
 	 */
 	public static void processInvalid(File[] inputFiles, String field, int index, List<Integer> badOutputList) {
 		try {
@@ -197,10 +204,10 @@ public class BibCreator {
 	}
 
 	/**
-	 * Get content inside the semicolons
+	 * This methods parses a line into the content of the field by using the String methods indexOf and substring.
 	 *
-	 * @param s the s
-	 * @return the string
+	 * @param s The line that needs to be parsed
+	 * @return The content of the field
 	 */
 	public static String parse(String s) {
 		int start = s.indexOf('{');
@@ -210,7 +217,7 @@ public class BibCreator {
 	}
 
 	/**
-	 * The main method.
+	 * In the main method, Task 3, Task 4, and Task 7 are performed.
 	 */
 	public static void main(String[] args) {
 		Scanner[] sc = null;

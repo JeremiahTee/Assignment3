@@ -9,8 +9,11 @@ package bibCreator;
 //-----------------------------------------------------
 
 /**
- * FileInvalidException class
- * @author Jeremiah Tiongson & Yun Shi Lin
+ * This class extends the Exception class and contains a default constructor, containing a default message
+ * and a parametrized constructor taking a String as a parameter and calling the Exception class' parametrized constructor
+ * through super.
+ * @author Jeremiah Tiongson
+ * @author Yun Shi Lin
  *
  */
 public class FileInvalidException extends Exception{
