@@ -231,7 +231,6 @@ public class BibCreator {
 		PrintWriter[] pwNJ = null;
 		File inputFolder = new File("C:\\Users\\Jeremiah\\workspace\\Assignment3\\input files");
 		String pathOutput = "C:\\Users\\Jeremiah\\workspace\\Assignment3\\output files";
-		String regexDigit = "";
 
 		// Creating an array of input files from the folder
 		File[] inputFiles = inputFolder.listFiles();
