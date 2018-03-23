@@ -14,8 +14,8 @@ package bibCreator;
  * through super.
  * @author Jeremiah Tiongson
  * @author Yun Shi Lin
- *
  */
+@SuppressWarnings("serial")
 public class FileInvalidException extends Exception{
 	/**
 	 * Default FileInvalidException constructor with default error message
@@ -26,6 +26,7 @@ public class FileInvalidException extends Exception{
 	
 	/**
 	 * Parametrized FileInvalidException constructor with parameter message for custom error
+	 * @param message String to passed to the super() constructor (Exception class)
 	 */
 	public FileInvalidException(String message){
 		super(message);
